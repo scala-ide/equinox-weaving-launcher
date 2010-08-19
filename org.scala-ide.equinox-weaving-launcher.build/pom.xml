@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.scala-ide</groupId>
+  <artifactId>equinox-weaving-launcher-build</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>Equinox Weaving Launcher</name>
+  <packaging>pom</packaging>
+
+  <properties>
+    <tycho.version>0.9.0</tycho.version>
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target>
+    <encoding>UTF-8</encoding>
+  </properties>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <modules>
+    <module>../org.scala-ide.equinox-weaving-launcher</module>
+    <module>../org.scala-ide.equinox-weaving-launcher.feature</module>
+    <module>../org.scala-ide.equinox-weaving-launcher.update-site</module>
+  </modules>
+
+  <build>
+    <sourceDirectory>${basedir}/src</sourceDirectory>
+    <testSourceDirectory>${basedir}/test</testSourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <pomDependencies>consider</pomDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <id>galileo</id>
+      <name>Eclipse Galileo p2 repository</name>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/galileo/</url>
+      <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>org.sonatype.tycho</id>
+      <name>Tycho snapshot repository</name>
+      <url>https://repository.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+</project>
