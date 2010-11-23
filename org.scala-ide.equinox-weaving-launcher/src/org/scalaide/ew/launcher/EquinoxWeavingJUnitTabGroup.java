@@ -19,9 +19,9 @@ package org.scalaide.ew.launcher;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
-import org.eclipse.pde.ui.launcher.EclipseLauncherTabGroup;
+import org.eclipse.pde.ui.launcher.JUnitTabGroup;
 
-public class EquinoxWeavingLauncherTabGroup extends EclipseLauncherTabGroup {
+public class EquinoxWeavingJUnitTabGroup extends JUnitTabGroup {
   @Override
   public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
     super.setDefaults(configuration);

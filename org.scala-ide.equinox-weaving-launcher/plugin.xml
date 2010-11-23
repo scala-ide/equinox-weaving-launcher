@@ -7,6 +7,11 @@
       configTypeID="org.scala-ide.ew.launcher.RuntimeWorkbench"
       id="org.scala-ide.ew.launcher.runtimeWorkbenchLaunchImage">
     </launchConfigurationTypeImage>
+    <launchConfigurationTypeImage
+      icon="$nl$/icons/weaving_launcher.gif"
+      configTypeID="org.scala-ide.ew.launcher.JunitLaunchConfig"
+      id="org.scala-ide.ew.launcher.JunitLaunchImage">
+    </launchConfigurationTypeImage>
   </extension>
 
 	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
@@ -24,14 +29,36 @@
 				mode="run">
 			</launchMode>
 		</launchConfigurationTabGroup>
+
+    <launchConfigurationTabGroup
+       type="org.scala-ide.ew.launcher.JunitLaunchConfig"
+       class="org.scalaide.ew.launcher.EquinoxWeavingJUnitTabGroup"
+       id="org.scala-ide.ew.launcher.JUnitTabGroup">
+       <launchMode
+         description="Create a configuration that will launch an Equinox Weaving enabled JUnit plug-in test in debug mode."
+         perspective="org.eclipse.debug.ui.DebugPerspective"
+         mode="debug">
+       </launchMode>
+       <launchMode
+         description="Create a configuration that will launch an Equinox Weaving enabled JUnit plug-in test."
+         mode="run">
+       </launchMode>
+    </launchConfigurationTabGroup>
 	</extension>
+
+  <extension
+    point="org.eclipse.jdt.junit.junitLaunchConfigs">
+    <launchConfigType
+      configTypeID="org.scala-ide.ew.launcher.JunitLaunchConfig">
+    </launchConfigType>
+  </extension>
 
   <extension point="org.eclipse.debug.ui.launchShortcuts">
 		<shortcut
       label="Equinox Weaving enabled Eclipse Application"
       icon="$nl$/icons/weaving_launcher.gif"
       modes="run, debug"
-      class="org.eclipse.pde.ui.launcher.EclipseLaunchShortcut"
+      class="org.scalaide.ew.launcher.EquinoxWeavingEclipseLaunchShortcut"
       id="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut">
  			<contextualLaunch>
 				<enablement>
@@ -64,7 +91,81 @@
  				mode="debug">
  			</description>
 		</shortcut>
+
+    <shortcut
+      label="Equinox Weaving enabled JUnit Plug-in Test"
+      icon="$nl$/icons/weaving_launcher.gif"
+      modes="run, debug"
+      class="org.scalaide.ew.launcher.EquinoxWeavingJUnitWorkbenchLaunchShortcut"
+      id="org.scala-ide.ew.launcher.junitWorkbenchShortcut">
+      <contextualLaunch>
+        <enablement>
+          <with variable="selection">
+            <count value="1"/>
+            <iterate>
+              <adapt type="org.eclipse.jdt.core.IJavaElement">
+		            <test property="org.eclipse.jdt.core.isInJavaProjectWithNature" value="org.eclipse.pde.PluginNature"/>
+		            <test property="org.eclipse.jdt.core.hasTypeOnClasspath" value="junit.framework.Test"/>
+		            <test property="org.eclipse.jdt.junit.canLaunchAsJUnit" forcePluginActivation="true"/>
+		          </adapt>
+		        </iterate>
+          </with>
+        </enablement>
+      </contextualLaunch>
+      <configurationType
+        id="org.scala-ide.ew.launcher.JunitLaunchConfig">
+      </configurationType>
+      <description
+        description="Runs a set of Equinox Weaving enabled JUnit plug-in tests"
+        mode="run">
+      </description>
+      <description
+        description="Debugs a set of Equinox Weaving enabled JUnit plug-in tests"
+        mode="debug">
+      </description>
+    </shortcut>
 	</extension>
+
+  <extension point="org.eclipse.pde.ui.launchShortcuts">
+    <shortcut
+      id="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut"
+      label="Launch an Equinox Weaving enabled Eclipse application"
+      mode="run">
+    </shortcut>
+    <shortcut
+      id="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut"
+      label="Launch an Equinox Weaving enabled Eclipse application in Debug mode"
+      mode="debug">
+    </shortcut>
+  </extension>
+  
+  <extension point="org.eclipse.ui.commands">
+    <command
+      name="Debug Equinox Weaving enabled Eclipse Application"
+      description="Debug Equinox Weaving enabled Eclipse Application"
+      categoryId="org.eclipse.debug.ui.category.run"
+      id="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut.debug">
+    </command>    
+    <command
+      name="Run Equinox Weaving enabled Eclipse Application"
+      description="Run Equinox Weaving enabled Eclipse Application"
+      categoryId="org.eclipse.debug.ui.category.run"
+      id="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut.run">
+    </command>    
+    <command
+      name="Debug Equinox Weaving enabled JUnit Plug-in Test"
+      description="Debug Equinox Weaving enabled JUnit Plug-in Test"
+      categoryId="org.eclipse.debug.ui.category.run"
+      id="org.scala-ide.ew.launcher.junitWorkbenchShortcut.debug">
+    </command>    
+    <command
+      name="Run Equinox Weaving enabled JUnit Plug-in Test"
+      description="Run Equinox Weaving enabled JUnit Plug-in Test"
+      categoryId="org.eclipse.debug.ui.category.run"
+      id="org.scala-ide.ew.launcher.junitWorkbenchShortcut.run">
+    </command>     
+  </extension>
+  
 
  	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
 		<launchConfigurationType
@@ -78,6 +179,40 @@
       sourceLocatorId="org.eclipse.pde.ui.launcher.PDESourceLookupDirector"
       sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
 		</launchConfigurationType>
+
+    <launchConfigurationType
+      delegate="org.scalaide.ew.launcher.EquinoxWeavingJUnitLaunchConfigurationDelegate"
+      delegateDescription="The Equinox Weaving enabled JUnit Plugin Test launcher is used to run and debug test suites for Equinox Weaving enabled plug-in projects"
+      delegateName="Equinox Weaving enabled JUnit Plugin Test Launcher"
+      id="org.scala-ide.ew.launcher.JunitLaunchConfig"
+      migrationDelegate="org.eclipse.pde.internal.ui.launcher.PDEMigrationDelegate"
+      modes="run, debug"
+      name="JUnit Plug-in Test with Equinox Weaving "
+      sourceLocatorId="org.eclipse.pde.ui.launcher.PDESourceLookupDirector"
+      sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
+    </launchConfigurationType>
 	</extension>
 
+  <extension point="org.eclipse.ui.bindings">
+    <key
+      sequence="M2+M3+D W"
+      commandId="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut.debug"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+    </key>      
+    <key
+      sequence="M2+M3+X W"
+      commandId="org.scala-ide.ew.launcher.runtimeWorkbenchShortcut.run"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+    </key>      
+    <key
+      sequence="M2+M3+D U"
+      commandId="org.scala-ide.ew.launcher.junitWorkbenchShortcut.debug"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+    </key>      
+    <key
+      sequence="M2+M3+X U"
+      commandId="org.scala-ide.ew.launcher.junitWorkbenchShortcut.run"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+    </key>      
+  </extension>
 </plugin>

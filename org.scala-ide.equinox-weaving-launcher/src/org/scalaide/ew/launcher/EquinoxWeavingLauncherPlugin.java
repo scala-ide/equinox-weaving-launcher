@@ -27,7 +27,6 @@ public class EquinoxWeavingLauncherPlugin extends AbstractUIPlugin {
   public static final String extraProgramArgs = "-clean -console";
   public static final String defaultVMArgs = "-server -Xms256m -Xmx1024m -Xss1M -XX:MaxPermSize=256m -XX:+DoEscapeAnalysis -XX:+UseConcMarkSweepGC";
 
-
   private static EquinoxWeavingLauncherPlugin plugin = null;
   
   public static EquinoxWeavingLauncherPlugin plugin() {

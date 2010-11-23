@@ -17,20 +17,18 @@
 package org.scalaide.ew.launcher;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
-import org.eclipse.pde.ui.launcher.IPDELauncherConstants;
+import org.eclipse.pde.ui.launcher.JUnitLaunchConfigurationDelegate;
 
-public class EquinoxWeavingApplicationLaunchConfiguration extends EclipseApplicationLaunchConfiguration {
+public class EquinoxWeavingJUnitLaunchConfigurationDelegate extends JUnitLaunchConfigurationDelegate {
+  @SuppressWarnings("unchecked")
   @Override
-  public String[] getProgramArguments(ILaunchConfiguration configuration) throws CoreException {
-    String[] args = super.getProgramArguments(configuration);
-    if (!configuration.getAttribute(IPDELauncherConstants.USEFEATURES, false)) {
-      File configFile = new File(getConfigDir(configuration), "config.ini");
-      EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile); 
-    }
-    return args;
+  protected void collectExecutionArguments(ILaunchConfiguration configuration, List vmArguments, List programArgs) throws CoreException {
+    super.collectExecutionArguments(configuration, vmArguments, programArgs);
+    File configFile = new File(super.getConfigurationDirectory(configuration), "config.ini");
+    EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile); 
   }
 }

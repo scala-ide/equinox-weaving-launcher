@@ -12,6 +12,8 @@ Bundle-Activator:
 Require-Bundle: 
  org.eclipse.core.runtime,
  org.eclipse.debug.ui,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.junit,
  org.eclipse.jdt.launching,
  org.eclipse.jface,
  org.eclipse.osgi,
