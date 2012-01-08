@@ -12,16 +12,17 @@ use Equinox Weaving.
 An update site and downloadable archive are available.
 
 Usage
+-----
 
 Install the Equinox Weaving Launcher from its update site.
 
-To launch an Eclipse application from your workspace with Equinox Weaving 
+* To launch an Eclipse application from your workspace with Equinox Weaving 
 enabled, navigate _Run Configurations ... => Eclipse Application with Equinox
 Weaving_, then click the _New launch configuration_ icon. Configure this launch 
 configuration as you would an ordinary Eclipse application launch configuration
 and then click _Run_.
 
-Launching an Equinox Weaving enabled JUnit plug-in test is similar. Navigate
+* Launching an Equinox Weaving enabled JUnit plug-in test is similar. Navigate
 _Run Configurations ... => JUnit Plug-in Test with Equinox Weaving_, then click
 the _New launch configuration_ icon. Configure this launch configuration as you
 would an ordinary JUnit plug-in test launch configuration and then click _Run_.
