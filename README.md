@@ -9,12 +9,16 @@ development workflow for the [Scala IDE for Eclipse](http://scala-ide.org/),
 and it can be used to support development of other Eclipse applications which
 use Equinox Weaving.
 
-An update site and downloadable archive are available.
+An [update site](http://www.chuusai.com/eclipse/equinox-weaving-launcher/) and
+downloadable
+[archive](http://www.chuusai.com/eclipse/equinox-weaving-launcher.zip)
+([sha1](http://www.chuusai.com/eclipse/equinox-weaving-launcher.zip.sha1)) are
+available.
 
 Usage
 -----
 
-Install the Equinox Weaving Launcher from its update site.
+First install the Equinox Weaving Launcher from its update site.
 
 * To launch an Eclipse application from your workspace with Equinox Weaving 
 enabled, navigate _Run Configurations ... => Eclipse Application with Equinox
