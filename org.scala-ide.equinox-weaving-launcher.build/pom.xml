@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho.version>0.15.0</tycho.version>
+    <tycho.version>0.20.0</tycho.version>
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target>
     <encoding>UTF-8</encoding>
@@ -69,10 +69,10 @@
   </build>
   <repositories>
     <repository>
-      <id>galileo</id>
-      <name>Eclipse Helios p2 repository</name>
+      <id>eclipse.luna</id>
+      <name>Eclipse Luna p2 repository</name>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/helios/</url>
+      <url>http://download.eclipse.org/releases/luna/</url>
       <snapshots><enabled>false</enabled></snapshots>
     </repository>
   </repositories>

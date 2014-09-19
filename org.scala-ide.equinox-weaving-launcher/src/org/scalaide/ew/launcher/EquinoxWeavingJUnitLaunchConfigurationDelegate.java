@@ -19,8 +19,10 @@ package org.scalaide.ew.launcher;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.jdt.core.IJavaModelMarker;
 import org.eclipse.pde.ui.launcher.JUnitLaunchConfigurationDelegate;
 
 public class EquinoxWeavingJUnitLaunchConfigurationDelegate extends JUnitLaunchConfigurationDelegate {
@@ -29,6 +31,16 @@ public class EquinoxWeavingJUnitLaunchConfigurationDelegate extends JUnitLaunchC
   protected void collectExecutionArguments(ILaunchConfiguration configuration, List vmArguments, List programArgs) throws CoreException {
     super.collectExecutionArguments(configuration, vmArguments, programArgs);
     File configFile = new File(super.getConfigurationDirectory(configuration), "config.ini");
-    EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile); 
+    EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile);
   }
+
+  @Override
+  protected boolean isLaunchProblem(IMarker problemMarker) throws CoreException {
+    Integer severity = (Integer) problemMarker.getAttribute(IMarker.SEVERITY);
+    boolean isError = (severity != null) ? severity.intValue() >= IMarker.SEVERITY_ERROR : false;
+
+    return super.isLaunchProblem(problemMarker)
+        || (isError && problemMarker.isSubtypeOf(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER));
+  }
+
 }
