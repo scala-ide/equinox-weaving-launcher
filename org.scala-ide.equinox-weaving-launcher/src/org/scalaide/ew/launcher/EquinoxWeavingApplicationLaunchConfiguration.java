@@ -18,8 +18,10 @@ package org.scalaide.ew.launcher;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.jdt.core.IJavaModelMarker;
 import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
 import org.eclipse.pde.ui.launcher.IPDELauncherConstants;
 
@@ -29,8 +31,17 @@ public class EquinoxWeavingApplicationLaunchConfiguration extends EclipseApplica
     String[] args = super.getProgramArguments(configuration);
     if (!configuration.getAttribute(IPDELauncherConstants.USEFEATURES, false)) {
       File configFile = new File(getConfigDir(configuration), "config.ini");
-      EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile); 
+      EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile);
     }
     return args;
+  }
+
+  @Override
+  protected boolean isLaunchProblem(IMarker problemMarker) throws CoreException {
+    Integer severity = (Integer) problemMarker.getAttribute(IMarker.SEVERITY);
+    boolean isError = (severity != null) ? severity.intValue() >= IMarker.SEVERITY_ERROR : false;
+
+    return super.isLaunchProblem(problemMarker)
+        || (isError && problemMarker.isSubtypeOf(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER));
   }
 }
