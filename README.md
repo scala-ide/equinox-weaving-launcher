@@ -9,10 +9,10 @@ development workflow for the [Scala IDE for Eclipse](http://scala-ide.org/),
 and it can be used to support development of other Eclipse applications which
 use Equinox Weaving.
 
-An [update site](http://www.chuusai.com/eclipse/equinox-weaving-launcher/) and
+An [update site](http://download.scala-ide.org/plugins/equinox-weaving-launcher/releases/site/) and
 downloadable
-[archive](http://www.chuusai.com/eclipse/equinox-weaving-launcher.zip)
-([sha1](http://www.chuusai.com/eclipse/equinox-weaving-launcher.zip.sha1)) are
+[archive](http://download.scala-ide.org/plugins/equinox-weaving-launcher/releases/site_assembly.zip)
+([sha1](http://download.scala-ide.org/plugins/equinox-weaving-launcher/releases/site_assembly.zip.sha1)) are
 available.
 
 Usage
