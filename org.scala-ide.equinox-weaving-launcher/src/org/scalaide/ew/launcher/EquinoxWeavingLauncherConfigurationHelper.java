@@ -36,13 +36,6 @@ public class EquinoxWeavingLauncherConfigurationHelper {
     File pluginAuxDirFile = new File(new File(Platform.getConfigurationLocation().getURL().getFile()).getParentFile(), "plugins");
     File pluginAuxDirOption = pluginAuxDirFile.exists() ? pluginAuxDirFile : null;
     
-    String weavingHookLocation = scanPluginDirForUniqueJar(pluginDirOption, "org.eclipse.equinox.weaving.hook_.+\\.jar");
-    if (weavingHookLocation == null) {
-      weavingHookLocation = scanPluginDirForUniqueJar(pluginAuxDirOption, "org.eclipse.equinox.weaving.hook_.+\\.jar");
-      if (weavingHookLocation == null)
-        return;
-    }
-    
     String weavingAspectJBundleLocation = scanPluginDirForUniqueJar(pluginDirOption, "org.eclipse.equinox.weaving.aspectj_.+\\.jar");
     if (weavingAspectJBundleLocation == null) {
       weavingAspectJBundleLocation = scanPluginDirForUniqueJar(pluginAuxDirOption, "org.eclipse.equinox.weaving.aspectj_.+\\.jar");
@@ -52,13 +45,11 @@ public class EquinoxWeavingLauncherConfigurationHelper {
 
     // See section "Installing JDT Weaving in a non-default location",
     //   http://wiki.eclipse.org/JDT_weaving_features
-    String framework = props.getProperty("osgi.framework");
-    props.put("osgi.frameworkClassPath", framework+",file:"+weavingHookLocation);
-    props.remove("osgi.framework");
+    props.put("osgi.framework.extensions", "org.eclipse.equinox.weaving.hook");
+
     String bundles = props.getProperty("osgi.bundles");
     props.put("osgi.bundles", "reference:file:"+weavingAspectJBundleLocation+"@2:start,"+bundles);
     
-    props.put("osgi.framework.extensions", "org.eclipse.equinox.weaving.hook");
     props.put("aj.weaving.verbose", "true");
     props.put("org.aspectj.weaver.showWeaveInfo", "true");
     props.put("org.aspectj.osgi.verbose", "true");
