@@ -23,12 +23,11 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaModelMarker;
-import org.eclipse.pde.ui.launcher.JUnitLaunchConfigurationDelegate;
+import org.eclipse.pde.launching.JUnitLaunchConfigurationDelegate;
 
 public class EquinoxWeavingJUnitLaunchConfigurationDelegate extends JUnitLaunchConfigurationDelegate {
-  @SuppressWarnings("unchecked")
   @Override
-  protected void collectExecutionArguments(ILaunchConfiguration configuration, List vmArguments, List programArgs) throws CoreException {
+  protected void collectExecutionArguments(ILaunchConfiguration configuration, List<String> vmArguments, List<String> programArgs) throws CoreException {
     super.collectExecutionArguments(configuration, vmArguments, programArgs);
     File configFile = new File(super.getConfigurationDirectory(configuration), "config.ini");
     EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile);
