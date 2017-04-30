@@ -72,7 +72,7 @@
       <id>eclipse.luna</id>
       <name>Eclipse Luna p2 repository</name>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/luna/</url>
+      <url>http://download.eclipse.org/releases/neon/</url>
       <snapshots><enabled>false</enabled></snapshots>
     </repository>
   </repositories>
