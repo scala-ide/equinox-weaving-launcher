@@ -1,14 +1,15 @@
 package org.scalaide.ew.launcher;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 public class EquinoxWeavingLauncherConfigurationHelper {
 
@@ -28,20 +29,9 @@ public class EquinoxWeavingLauncherConfigurationHelper {
       return;
     }
     
-    // The is the shared install location
-    File pluginDirFile = new File(Platform.getInstallLocation().getURL().getFile(), "plugins");
-    File pluginDirOption = pluginDirFile.exists() ? pluginDirFile : null;
-
-    // This is the per-user install location
-    File pluginAuxDirFile = new File(new File(Platform.getConfigurationLocation().getURL().getFile()).getParentFile(), "plugins");
-    File pluginAuxDirOption = pluginAuxDirFile.exists() ? pluginAuxDirFile : null;
-    
-    String weavingAspectJBundleLocation = scanPluginDirForUniqueJar(pluginDirOption, "org.eclipse.equinox.weaving.aspectj_.+\\.jar");
-    if (weavingAspectJBundleLocation == null) {
-      weavingAspectJBundleLocation = scanPluginDirForUniqueJar(pluginAuxDirOption, "org.eclipse.equinox.weaving.aspectj_.+\\.jar");
-      if (weavingAspectJBundleLocation == null)
-        return;
-    }
+    String weavingAspectJBundleLocation = getPlatformBundleLocation("org.eclipse.equinox.weaving.aspectj");
+    if (weavingAspectJBundleLocation == null)
+      return;
 
     // See section "Installing JDT Weaving in a non-default location",
     //   http://wiki.eclipse.org/JDT_weaving_features
@@ -74,13 +64,15 @@ public class EquinoxWeavingLauncherConfigurationHelper {
     }
   }
   
-  private static String scanPluginDirForUniqueJar(File pluginDirOption, final String filePattern) {
-    if (pluginDirOption != null) {
-      File[] files = pluginDirOption.listFiles(new FileFilter() {
-          public boolean accept(File file) { return file.getName().matches(filePattern) && file.isFile(); }
-      });
-      if (files.length > 0)
-        return files[0].getAbsolutePath();
+  private static String getPlatformBundleLocation(String symbolicName) {
+    Bundle bundle = Platform.getBundle(symbolicName);
+    if (bundle != null) {
+      try {
+        File bundleLocation = FileLocator.getBundleFile(bundle);
+        return bundleLocation.getCanonicalPath();
+      } catch (IOException ex) {
+        // Deliberately ignored
+      }
     }
     return null;
   }
