@@ -8,7 +8,10 @@ import java.util.Properties;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.debug.core.DebugException;
 import org.osgi.framework.Bundle;
 
 public class EquinoxWeavingLauncherConfigurationHelper {
@@ -29,9 +32,8 @@ public class EquinoxWeavingLauncherConfigurationHelper {
       return;
     }
     
+    getPlatformBundleLocation("org.eclipse.equinox.weaving.hook"); // ensure that the bundle is present
     String weavingAspectJBundleLocation = getPlatformBundleLocation("org.eclipse.equinox.weaving.aspectj");
-    if (weavingAspectJBundleLocation == null)
-      return;
 
     // See section "Installing JDT Weaving in a non-default location",
     //   http://wiki.eclipse.org/JDT_weaving_features
@@ -64,7 +66,7 @@ public class EquinoxWeavingLauncherConfigurationHelper {
     }
   }
   
-  private static String getPlatformBundleLocation(String symbolicName) {
+  private static String getPlatformBundleLocation(String symbolicName) throws DebugException {
     Bundle bundle = Platform.getBundle(symbolicName);
     if (bundle != null) {
       try {
@@ -74,6 +76,7 @@ public class EquinoxWeavingLauncherConfigurationHelper {
         // Deliberately ignored
       }
     }
-    return null;
+    throw new DebugException(new Status(IStatus.ERROR, EquinoxWeavingLauncherPlugin.pluginId,
+        DebugException.INTERNAL_ERROR, "Unable to find installation location of bundle " + symbolicName, null));
   }
 }
