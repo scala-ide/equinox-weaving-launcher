@@ -22,17 +22,14 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaModelMarker;
-import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
-import org.eclipse.pde.ui.launcher.IPDELauncherConstants;
+import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 
 public class EquinoxWeavingApplicationLaunchConfiguration extends EclipseApplicationLaunchConfiguration {
   @Override
   public String[] getProgramArguments(ILaunchConfiguration configuration) throws CoreException {
     String[] args = super.getProgramArguments(configuration);
-    if (!configuration.getAttribute(IPDELauncherConstants.USEFEATURES, false)) {
-      File configFile = new File(getConfigDir(configuration), "config.ini");
-      EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile);
-    }
+    File configFile = new File(getConfigDir(configuration), "config.ini");
+    EquinoxWeavingLauncherConfigurationHelper.updateConfiguration(configFile);
     return args;
   }
 
